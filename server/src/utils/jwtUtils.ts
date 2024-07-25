@@ -15,7 +15,7 @@ const verifyToken = (token: string): DecodedToken | null => {
     try {
         return jwt.verify(token, jwt_secret as string) as DecodedToken;
     } catch (error) {
-        throw new Error("Access token invalid");
+        throw new Error("Access token invalid//403");
     }
 };
 

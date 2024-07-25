@@ -1,6 +1,6 @@
 import userModel from "../models/userModel";
 import bcrypt from 'bcryptjs';
-import { generateToken, verifyToken } from "../utils/jwtutils";
+import { generateToken, verifyToken } from "../utils/jwtUtils";
 
 const signupUser = async (user: { username: string; email: string; password: string; }) => {
     const userExists = await userModel.getUserByEmail(user.email);
@@ -15,10 +15,10 @@ const signupUser = async (user: { username: string; email: string; password: str
 const loginUser = async (email: string, password: string) => {
     const user = await userModel.getUserByEmail(email);
     if(!user) {
-        throw new Error('User not found');
+        throw new Error('User not found//404');
     }
     if(! await bcrypt.compare(password, user.password)) {
-        throw new Error('Password incorrect');
+        throw new Error('Password incorrect//401');
     }
     const token = generateToken(user.id);
     return token;
@@ -27,7 +27,7 @@ const loginUser = async (email: string, password: string) => {
 const deleteUser = async (userId: number, token: string) => {
     const decodedToken = verifyToken(token);
     if (!decodedToken) {
-        throw new Error('Invalid token');
+        throw new Error('Invalid token//403');
     }
 
     const currentUser: number = decodedToken.id;
