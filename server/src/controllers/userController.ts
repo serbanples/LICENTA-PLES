@@ -15,7 +15,7 @@ const loginUser = async (req: Request, res: Response, next: Function) => {
     try {
         const { email, password } = req.body;
         const token = await userService.loginUser(email, password);
-        res.json(token);
+        res.send({ token: token });
     } catch (error) {
         next(error);
     }
