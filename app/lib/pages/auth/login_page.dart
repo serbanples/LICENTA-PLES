@@ -1,3 +1,4 @@
+import 'package:app/api/auth_service.dart';
 import 'package:app/widgets/my_button.dart';
 import 'package:app/widgets/my_textfield.dart';
 import 'package:app/widgets/square_tile.dart';
@@ -11,7 +12,20 @@ class LoginPage extends StatelessWidget {
   final passwordController = TextEditingController();
 
   //sign user in method
-  void signUserIn() {}
+  void signUserIn(BuildContext context) async {
+    final String email = emailController.text;
+    final String password = passwordController.text;
+
+    try {
+      await AuthService.loginUser(email, password);
+      Navigator.pushNamed(context, '/home');
+    } catch (e) {
+      final errorMessage = e.toString().replaceFirst('Exception: ', '');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +95,7 @@ class LoginPage extends StatelessWidget {
                 //sign in button
                 MyButton(
                   text: 'Sign in',
-                  onTap: signUserIn,
+                  onTap: () => signUserIn(context),
                 ),
             
                 const SizedBox(height: 50),
@@ -139,11 +153,16 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     const SizedBox(width: 4),
-                    const Text(
-                      'Register now',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/signup');
+                      },
+                      child: const Text(
+                        'Register now',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
                     ),
                   ],

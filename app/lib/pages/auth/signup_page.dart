@@ -143,11 +143,16 @@ class SignupPage extends StatelessWidget {
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     const SizedBox(width: 4),
-                    const Text(
-                      'Log in',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: const Text(
+                        'Log in',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
                     ),
                   ],
