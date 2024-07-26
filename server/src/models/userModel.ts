@@ -28,7 +28,7 @@ const getUserByEmail = async (email: string) => {
 }
 
 const getAllUsers = async () => {
-    const result = await db.query('SELECT * FROM users');
+    const result = await db.query('SELECT id, username, email, created_at FROM users');
     return result.rows;
 }
 

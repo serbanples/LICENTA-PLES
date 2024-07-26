@@ -24,6 +24,21 @@ const loginUser = async (email: string, password: string) => {
     return token;
 }
 
+const getCurrentUser = async (token: string) => {
+    const decodedToken = verifyToken(token);
+    if(!decodedToken) {
+        throw new Error('Invalid token//403');
+    }
+
+    const currentUserId: number = decodedToken.id;
+    const user = await userModel.getUserbyId(currentUserId);
+    const { password, ...userWithoutPassword } = user;
+    if(!user) {
+        throw new Error('User not found//404');
+    }
+    return userWithoutPassword;
+}
+
 const deleteUser = async (userId: number, token: string) => {
     const decodedToken = verifyToken(token);
     if (!decodedToken) {
@@ -41,5 +56,6 @@ const deleteUser = async (userId: number, token: string) => {
 export default {
     signupUser,
     loginUser,
-    deleteUser
+    deleteUser,
+    getCurrentUser,
 }
